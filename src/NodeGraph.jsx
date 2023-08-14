@@ -12,8 +12,45 @@ class NodeGraph extends Component {
       average:0,
       legajo: '', // Agrega el estado para el legajo
       notas: {}, // Agrega un estado para almacenar las notas asociadas a los legajos
+      showNoteDialog: false,
+      selectedNode: null,
     };
   }
+  handleOpenNoteDialog = (node) => {
+    this.setState({ showNoteDialog: true, selectedNode: node }, () => {
+      if (this.noteInput) {
+        this.noteInput.focus(); // Focus the input element
+      }
+    });
+  };
+  
+  handleCloseNoteDialog = () => {
+    this.setState({ showNoteDialog: false, selectedNode: null });
+  };
+  
+
+  handleNoteInput = (event) => {
+    const { selectedNode } = this.state;
+    const newNodes = this.state.nodes.map((n) =>
+      n.id === selectedNode.id ? { ...n, nota: parseInt(event.target.value) || -2 } : n
+    );
+
+    if (event.target.value === '100') {
+      newNodes.find((n) => n.id === selectedNode.id).nota = 100;
+    }
+
+    const progress = this.calculateProgress(newNodes);
+    const average = this.calculateAverage(newNodes, newNodes.filter((n) => n.nota !== 100));
+    
+    this.setState({ nodes: newNodes, progress, average }, () => {
+      this.renderGraph();
+    });
+
+    const { legajo, notas } = this.state;
+    const updatedNotas = { ...notas, [legajo]: newNodes };
+    this.setState({ notas: updatedNotas });
+    localStorage.setItem('notas', JSON.stringify(updatedNotas));
+  };
 
   handleLegajoChange = (event) => {
     const newLegajo = event.target.value;
@@ -31,7 +68,7 @@ class NodeGraph extends Component {
   }
 
   calculateAverage(nodes) {
-    const validNotes = nodes.filter((n) => n.nota !== -2);
+    const validNotes = nodes.filter((n) => n.nota !== -2 && n.nota !== 100);
     if (validNotes.length === 0) {
       return 0;
     }
@@ -62,9 +99,19 @@ class NodeGraph extends Component {
     this.setState({ nodes,progress,average }, () => {
       this.renderGraph(); // Después de actualizar el estado, renderiza el grafo
     });
+    window.addEventListener('keydown', this.handleKeyDown);
   }
 
-  
+  handleKeyDown = (event) => {
+    if (event.key === 'Escape') {
+      this.handleCloseNoteDialog(); // Call the method to close the note dialog
+    }
+  };
+
+  componentWillUnmount() {
+    // Remove the event listener when the component unmounts
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
 
   generateEdges(nodes) {
     const edges = []; // Inicializa un arreglo para almacenar las aristas del grafo
@@ -84,27 +131,9 @@ class NodeGraph extends Component {
     return edges; // Devuelve el arreglo de aristas generadas
   }
 
-  handleNodeClick(node) {
-    const newNodes = this.state.nodes.map((n) =>
-      n.id === node.id ? { ...n, nota: parseInt(prompt('Ingrese la nota:')) || -2 } : n
-    );
-    const progress = this.calculateProgress(newNodes); // Calcula el nuevo progreso
-    const average = this.calculateAverage(newNodes); // Calcula el nuevo promedio
-
-    this.setState({ nodes: newNodes, progress,average }, () => {
-      this.renderGraph(); // Vuelve a renderizar el grafo después de cambiar la nota
-    });
-
-    // Actualiza el estado de las notas asociadas al legajo
-    const { legajo, notas } = this.state;
-    const updatedNotas = { ...notas, [legajo]: newNodes };
-    this.setState({ notas: updatedNotas });
-
-    
-    // Guarda las notas actualizadas en el almacenamiento local
-    localStorage.setItem('notas', JSON.stringify(updatedNotas));
-  }
-
+handleNodeClick(node) {
+  this.handleOpenNoteDialog(node);
+}
     // Método para guardar las notas en el almacenamiento local
     handleGuardarClick = () => {
       const { legajo, nodes, notas } = this.state;
@@ -137,7 +166,6 @@ class NodeGraph extends Component {
         {
           selector: 'node', // Estilos para los nodos
           style: {
-            'background-color': (node) => (node.data('nota') >= 4 ? 'green' : 'orange'), // Cambia el color del fondo según la nota
             width: '100px',
             height: '50px',
             'font-size': '14px',
@@ -145,7 +173,6 @@ class NodeGraph extends Component {
             'text-wrap': 'wrap',
             shape: 'roundrectangle', // Usar la forma 'roundrectangle' para bordes curvos
             content: 'data(materia)', // Mostrar el valor de la etiqueta del nodo
-            'white-space': 'pre-line', // Agrega esta línea para permitir saltos de línea
             'text-valign': 'center',
             'text-halign': 'center',
           },
@@ -173,17 +200,38 @@ class NodeGraph extends Component {
   cy.batch(() => {
     cy.nodes().forEach((node) => {
       const nota = node.data('nota');
-      const backgroundColor = nota >= 4 ? 'green' : 'orange';
+      const id = node.data('id')
+      const backgroundColor = getNodeBackgroundColor(id, nota);
       node.style('background-color', backgroundColor);
     });
   });
   
+  function getNodeBackgroundColor(nodeId, nota) {
+    if (nota >= 4) {
+      return '#38E54D';
+    } else if (nodeId.startsWith('3.4')) {
+      return '#A1CCD1';
+    } else if (nodeId.startsWith('3.1')) {
+      return '#E9B384';
+    } else if (nodeId.startsWith('3.2')) {
+      return '#F4F2DE';
+    } else if (nodeId.startsWith('3.3')) {
+      return '#7C9D96';
+    } else if (nodeId.startsWith('2.1')) {
+      return '##D8D9DA';
+    } else if (nodeId.startsWith('2.3')) {
+      return '#FFC6AC';
+    } else {
+      return '#765827';
+    }
+  }
+
   cy.nodes().on('click', (event) => {
     this.handleNodeClick(event.target.data());
   });
 }
   render() {
-    const { progress , average, legajo, nodes} = this.state;
+    const { progress , average, legajo, nodes,showNoteDialog } = this.state;
     const aprobadas = nodes.filter((n) => n.nota >= 4).length; // Calcula la cantidad de materias aprobadas
 
     return (
@@ -209,6 +257,21 @@ class NodeGraph extends Component {
           <div className="progress" style={{ width: `${progress}%` }}></div>
           <div className="progress-text">{`${progress.toFixed(2)}%`}</div>
         </div>
+
+        {showNoteDialog && (
+        <div className="note-dialog">
+          <input
+            ref={(input) => (this.noteInput = input)} // Create a ref to the input element
+            type="number"
+            min="0"
+            max="10"
+            placeholder="Ingrese la nota (0-10)"
+            onChange={this.handleNoteInput}
+          />
+          <button onClick={this.handleCloseNoteDialog}>Cerrar</button>
+          <button onClick={() => this.handleNoteInput({ target: { value: '100' } })}>Equivalencia</button>
+        </div>
+      )}
       </div>
       </div>
 
