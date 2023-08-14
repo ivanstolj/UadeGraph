@@ -234,7 +234,7 @@
       "nivel": 9,
       "correlativa": ["3.1.056"]
     },{
-        "id": "1",
+        "id": "9.1",
         "materia": "optativa 1",
         "nivel": 9,
         "correlativa": ""
@@ -270,7 +270,7 @@
       "correlativa": ""
     },
     {
-        "id": "2",
+        "id": "9.2",
         "materia": "optativa 2",
         "nivel": 11,
         "correlativa": ""
@@ -300,7 +300,7 @@
       "correlativa": ""
     },
     {
-      "id": "3",
+      "id": "9.3",
       "materia": "optativa 3",
       "nivel": 12,
       "correlativa": ""

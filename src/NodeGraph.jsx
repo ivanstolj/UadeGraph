@@ -14,6 +14,8 @@ class NodeGraph extends Component {
       notas: {}, // Agrega un estado para almacenar las notas asociadas a los legajos
       showNoteDialog: false,
       selectedNode: null,
+      selectedNodeId: null,
+      selectedCareer: 'Informatica', // Valor inicial para la carrera seleccionada
     };
   }
   handleOpenNoteDialog = (node) => {
@@ -23,7 +25,28 @@ class NodeGraph extends Component {
       }
     });
   };
+
+  // Método para cargar los datos según la carrera seleccionada
+  async loadCareerData(career) {
+    const node = new Node();
+    await node.loadFromJSON(`/UadeGraph/src/carreras/${career}.json`);
+    const nodes = node.getAllNodes();
+    const progress = this.calculateProgress(nodes);
+    const average = this.calculateAverage(nodes);
+    this.setState({ nodes, progress, average }, () => {
+      this.renderGraph();
+    });
+  }
+
+  // Manejador para cambiar la carrera seleccionada
+  handleCareerChange = (event) => {
+    const newCareer = event.target.value;
+    this.setState({ selectedCareer: newCareer }, () => {
+      this.loadCareerData(newCareer);
+    });
+  }
   
+
   handleCloseNoteDialog = () => {
     this.setState({ showNoteDialog: false, selectedNode: null });
   };
@@ -83,6 +106,12 @@ class NodeGraph extends Component {
       this.setState({ nodes: newNodes });
       this.renderGraph();
     }
+      // Recalculate progress and average when notes are updated
+    if (prevState.nodes !== this.state.nodes) {
+      const progress = this.calculateProgress(this.state.nodes);
+      const average = this.calculateAverage(this.state.nodes);
+      this.setState({ progress, average });
+    }
   }
   
   
@@ -92,7 +121,7 @@ class NodeGraph extends Component {
     const notasFromStorage = JSON.parse(localStorage.getItem('notas')) || {};
     this.setState({ notas: notasFromStorage });
     const node = new Node(); // Crea una instancia del componente Node
-    await node.loadFromJSON('/UadeGraph/src/carreras/Informatica.json'); // Carga los datos de nodos desde un archivo JSON
+    this.loadCareerData(this.state.selectedCareer); // Cargar los datos iniciales basados en la carrera seleccionada
     const nodes = node.getAllNodes(); // Obtiene todos los nodos cargados
     const progress = this.calculateProgress(nodes); // Calcula el progreso
     const average = this.calculateAverage(nodes); // Calcula el promedio
@@ -100,8 +129,13 @@ class NodeGraph extends Component {
       this.renderGraph(); // Después de actualizar el estado, renderiza el grafo
     });
     window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('click', this.handleOutsideClick);
   }
-
+  handleOutsideClick = (event) => {
+    if (this.noteDialogRef && !this.noteDialogRef.contains(event.target)) {
+      this.handleCloseNoteDialog();
+    }
+  };
   handleKeyDown = (event) => {
     if (event.key === 'Escape') {
       this.handleCloseNoteDialog(); // Call the method to close the note dialog
@@ -111,6 +145,8 @@ class NodeGraph extends Component {
   componentWillUnmount() {
     // Remove the event listener when the component unmounts
     window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('click', this.handleOutsideClick);
+
   }
 
   generateEdges(nodes) {
@@ -132,6 +168,7 @@ class NodeGraph extends Component {
   }
 
 handleNodeClick(node) {
+  this.setState({ selectedNodeId: node.id });
   this.handleOpenNoteDialog(node);
 }
     // Método para guardar las notas en el almacenamiento local
@@ -161,7 +198,7 @@ handleNodeClick(node) {
 
     const cy = cytoscape({
       container: document.getElementById('graph-id'), // Define el contenedor donde se renderizará el grafo
-      elements, // Define los elementos del grafo
+      elements,
       style: [
         {
           selector: 'node', // Estilos para los nodos
@@ -197,41 +234,58 @@ handleNodeClick(node) {
       
     }); // Crea una instancia de Cytoscape y configura el grafo
     // Actualizar estilo de los nodos después de inicializar el grafo
-  cy.batch(() => {
-    cy.nodes().forEach((node) => {
-      const nota = node.data('nota');
-      const id = node.data('id')
-      const backgroundColor = getNodeBackgroundColor(id, nota);
-      node.style('background-color', backgroundColor);
-    });
-  });
-  
-  function getNodeBackgroundColor(nodeId, nota) {
-    if (nota >= 4) {
-      return '#38E54D';
-    } else if (nodeId.startsWith('3.4')) {
-      return '#A1CCD1';
-    } else if (nodeId.startsWith('3.1')) {
-      return '#E9B384';
-    } else if (nodeId.startsWith('3.2')) {
-      return '#F4F2DE';
-    } else if (nodeId.startsWith('3.3')) {
-      return '#7C9D96';
-    } else if (nodeId.startsWith('2.1')) {
-      return '##D8D9DA';
-    } else if (nodeId.startsWith('2.3')) {
-      return '#FFC6AC';
-    } else {
-      return '#765827';
+    function getNodeBackgroundColor(nodeId, nota) {
+      if (nota >= 4) {
+        return '#38E54D';
+      } else if (nodeId.startsWith('3.4')) {
+        return '#A1CCD1';
+      } else if (nodeId.startsWith('3.1')) {
+        return '#E9B384';
+      } else if (nodeId.startsWith('3.2')) {
+        return '#F4F2DE';
+      } else if (nodeId.startsWith('3.3')) {
+        return '#7C9D96';
+      } else if (nodeId.startsWith('2.1')) {
+        return '#D8D9DA';
+      } else if (nodeId.startsWith('2.3')) {
+        return '#FFC6AC';
+      } else {
+        return '#765827';
+      }
     }
-  }
+  
+    cy.batch(() => {
+      cy.nodes().forEach((node) => {
+        const nota = node.data('nota');
+        const nodeId = node.data('id');
+        const backgroundColor = getNodeBackgroundColor(nodeId, nota);
+        node.style('background-color', backgroundColor);
+  
+        node.on('mouseover', () => {
+          cy.edges().forEach((edge) => {
+            if (edge.source().id() === nodeId || edge.target().id() === nodeId) {
+              edge.style('width', 4);
+            } else {
+              edge.style('opacity', 0.2);
+            }
+          });
+        });
+  
+        node.on('mouseout', () => {
+          cy.edges().forEach((edge) => {
+            edge.style('width', 2);
+            edge.style('opacity', 1);
+          });
+        });
+      });
+    });
 
   cy.nodes().on('click', (event) => {
     this.handleNodeClick(event.target.data());
   });
 }
   render() {
-    const { progress , average, legajo, nodes,showNoteDialog } = this.state;
+    const { progress , average, legajo, nodes,showNoteDialog ,selectedCareer} = this.state;
     const aprobadas = nodes.filter((n) => n.nota >= 4).length; // Calcula la cantidad de materias aprobadas
 
     return (
@@ -239,6 +293,11 @@ handleNodeClick(node) {
       <div style={{ width: '100%', height: '100vh' }}>
       <div className="header">
         <h1>UADE</h1>
+        <select value={selectedCareer} onChange={this.handleCareerChange}>
+              <option value="Informatica">Informatica</option>
+              <option value="Industrial">Industrial</option>
+              <option value="Sistemas">Sistemas</option>
+            </select>
         <input
           className="legajo-input"
           type="text"
