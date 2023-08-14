@@ -1,0 +1,314 @@
+[
+    {
+      "id": "3.4.069",
+      "materia": "fundamentos de informatica",
+      "nivel": 1,
+      "correlativa": ""
+    },
+    {
+      "id": "3.4.164",
+      "materia": "sistemas de informacion 1",
+      "nivel": 1,
+      "correlativa": ""
+    },
+    {
+      "id": "2.1.002",
+      "materia": "pensamiento critico y comunicacion",
+      "nivel": 1,
+      "correlativa": ""
+    },
+    {
+      "id": "3.4.043",
+      "materia": "teoria de sistemas",
+      "nivel": 1,
+      "correlativa": ""
+    },
+    {
+      "id": "3.1.050",
+      "materia": "elementos de algebra y geometria",
+      "nivel": 1,
+      "correlativa": ""
+    },
+    {
+      "id": "3.4.071",
+      "materia": "programacion 1",
+      "nivel": 2,
+      "correlativa": ["3.4.069"]
+    },
+    {
+      "id": "3.3.121",
+      "materia": "sistemas de representacion",
+      "nivel": 1.7,
+      "correlativa": ""
+    },
+
+    {
+      "id": "3.4.072",
+      "materia": "arquitectura de computadores",
+      "nivel": 2,
+      "correlativa": ""
+    },
+    {
+      "id": "3.1.024",
+      "materia": "matematica discreta",
+      "nivel": 2,
+      "correlativa": ""
+    },
+    {
+      "id": "3.1.051",
+      "materia": "algebra",
+      "nivel": 2,
+      "correlativa": ""
+    },
+    {
+      "id": "3.4.074",
+      "materia": "programacion 2",
+      "nivel": 3,
+      "correlativa": ["3.4.071"]
+    },
+    {
+      "id": "3.4.207",
+      "materia": "sistemas de informacion 2",
+      "nivel": 3,
+      "correlativa": ["3.4.164"]
+    },
+    {
+      "id": "3.4.075",
+      "materia": "sistemas operativos",
+      "nivel": 3,
+      "correlativa": ["3.4.094"]
+    },
+    {
+      "id": "3.1.052",
+      "materia": "fisica 1",
+      "nivel": 3,
+      "correlativa": ""
+    },
+    {
+      "id": "3.1.053",
+      "materia": "calculo 1",
+      "nivel": 3,
+      "correlativa": ""
+    },
+    {
+      "id": "3.4.077",
+      "materia": "Programacion 3",
+      "nivel": 4,
+      "correlativa": ["3.4.074"]
+    },
+    {
+      "id": "3.4.208",
+      "materia": "paradigma orientado a objetos",
+      "nivel": 4,
+      "correlativa": ["3.4.071"]
+    },
+    {
+      "id": "3.4.078",
+      "materia": "fundamentos de telecomunicaciones",
+      "nivel": 4,
+      "correlativa": ""
+    },
+    {
+      "id": "3.4.209",
+      "materia": "ingenieria de datos 1",
+      "nivel": 4,
+      "correlativa": ["3.1.024"]
+    },
+    {
+      "id": "3.1.054",
+      "materia": "calculo 2",
+      "nivel": 4,
+      "correlativa": ["3.1.053"]
+    },
+    {
+      "id": "2.4.216",
+      "materia": "examen de ingles",
+      "nivel": 5,
+      "correlativa": ""
+    },
+    {
+      "id": "3.4.210",
+      "materia": "proceso de desarrollo de software",
+      "nivel": 6,
+      "correlativa": ["3.4.208"]
+    },
+    {
+      "id": "3.4.211",
+      "materia": "seminario de integracion profesional",
+      "nivel": 6,
+      "correlativa": ["3.4.207","3.4.209","3.4.074"]
+    },
+    {
+      "id": "3.4.212",
+      "materia": "teleinformatica y redes",
+      "nivel": 6,
+      "correlativa": ["3.4.078"]
+    },
+    {
+      "id": "3.4.213",
+      "materia": "ingenieria de datos 2",
+      "nivel": 6,
+      "correlativa": ["3.4.209"]
+    },
+    {
+      "id": "3.1.049",
+      "materia": "probabilidad y estadistica",
+      "nivel": 6,
+      "correlativa": ["3.1.053"]
+    },
+    {
+      "id": "3.4.082",
+      "materia": "aplicaciones interactivas",
+      "nivel": 7,
+      "correlativa": ["3.4.208"]
+    },
+    {
+      "id": "3.4.214",
+      "materia": "ingenieria de software",
+      "nivel": 7,
+      "correlativa": ["3.4.207"]
+    },
+    {
+      "id": "3.1.055",
+      "materia": "fisica 2",
+      "nivel": 7,
+      "correlativa": ["3.1.052"]
+    },
+    {
+      "id": "3.4.215",
+      "materia": "teoria de la computacion",
+      "nivel": 7,
+      "correlativa": ["3.4.077"]
+    },
+    {
+      "id": "3.1.056",
+      "materia": "estadistica avanzada",
+      "nivel": 7,
+      "correlativa": ["3.1.049"]
+    },
+    {
+      "id": "3.4.216",
+      "materia": "desarrollo de aplicaciones 1",
+      "nivel": 8,
+      "correlativa": ["3.4.210"]
+    },
+    {
+      "id": "3.4.089",
+      "materia": "direccion de proyectos informaticos",
+      "nivel": 8,
+      "correlativa": ["3.4.207"]
+    },
+    {
+      "id": "3.4.217",
+      "materia": "ciencia de datos",
+      "nivel": 8,
+      "correlativa": ["3.1.049","3.4.213"]
+    },
+    {
+      "id": "3.4.092",
+      "materia": "seguridad e integridad de la informacion",
+      "nivel": 8,
+      "correlativa": ["3.4.212"]
+    },
+    {
+      "id": "3.1.025",
+      "materia": "modelado y simulacion",
+      "nivel": 8,
+      "correlativa": ["3.1.054"]
+    },
+    {
+      "id": "3.4.218",
+      "materia": "desarrollo de aplicaciones 2",
+      "nivel": 9,
+      "correlativa": ["3.4.216"]
+    },
+    {
+      "id": "3.4.086",
+      "materia": "evaluacion de proyectos informaticos",
+      "nivel": 9,
+      "correlativa": ["3.1.049"]
+    },
+    {
+      "id": "3.4.096",
+      "materia": "inteligencia artificial",
+      "nivel": 9,
+      "correlativa": ["3.1.056"]
+    },{
+        "id": "1",
+        "materia": "optativa 1",
+        "nivel": 9,
+        "correlativa": ""
+    },
+    {
+      "id": "3.4.219",
+      "materia": "tecnología y medio ambiente",
+      "nivel": 9,
+      "correlativa": ""
+    },
+    {
+      "id": "PPS06",
+      "materia": "practica profesional supervisada",
+      "nivel": 10,
+      "correlativa": ""
+    },
+    {
+      "id": "3.4.094",
+      "materia": "arquitectura de aplicaciones",
+      "nivel": 11,
+      "correlativa": ["3.4.207"]
+    },
+    {
+      "id": "3.4.220",
+      "materia": "tendencias tecnologicas",
+      "nivel": 11,
+      "correlativa": ""
+    },
+    {
+      "id": "3.4.100",
+      "materia": "proyecto final de ingenieria en informatica",
+      "nivel": 11,
+      "correlativa": ""
+    },
+    {
+        "id": "2",
+        "materia": "optativa 2",
+        "nivel": 11,
+        "correlativa": ""
+      },
+    {
+      "id": "3.4.098",
+      "materia": "calidad de software",
+      "nivel": 11,
+      "correlativa": ["3.4.214"]
+    },
+    {
+      "id": "3.4.221",
+      "materia": "negocios tecnologicos",
+      "nivel": 12,
+      "correlativa": ""
+    },
+    {
+      "id": "3.4.135",
+      "materia": "tecnologia e innovacion",
+      "nivel": 12,
+      "correlativa": ""
+    },
+    {
+      "id": "2.3.056",
+      "materia": "derecho informatico",
+      "nivel": 12,
+      "correlativa": ""
+    },
+    {
+      "id": "3",
+      "materia": "optativa 3",
+      "nivel": 12,
+      "correlativa": ""
+    },    
+    {
+        "id": "3.2.178",
+        "materia": "fundamentos de quimica",
+        "nivel": 2.3,
+        "correlativa": ""
+    }
+  ]
