@@ -183,7 +183,9 @@ class NodeGraph extends Component {
   });
 }
   render() {
-    const { progress , average, legajo} = this.state;
+    const { progress , average, legajo, nodes} = this.state;
+    const aprobadas = nodes.filter((n) => n.nota >= 4).length; // Calcula la cantidad de materias aprobadas
+
     return (
       <div className="container">
       <div style={{ width: '100%', height: '100vh' }}>
@@ -198,7 +200,9 @@ class NodeGraph extends Component {
         />
         {legajo && <span className="tic">✔</span>}
         <button onClick={this.handleGuardarClick}>Guardar</button>
-        <div className="average-header">Promedio: {average.toFixed(2)}</div>
+        <div className="average-header">
+            Promedio: {average.toFixed(2)} - {aprobadas} de {nodes.length}
+        </div>
       </div>        
       <div id="graph-id" className="graph-container" style={{ width: '100vw', height: '100vh', margin: 'auto' }}></div>
         <div className="progress-bar">
