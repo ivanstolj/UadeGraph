@@ -55,7 +55,7 @@ class NodeGraph extends Component {
     const notasFromStorage = JSON.parse(localStorage.getItem('notas')) || {};
     this.setState({ notas: notasFromStorage });
     const node = new Node(); // Crea una instancia del componente Node
-    await node.loadFromJSON('/src/carreras/Informatica.json'); // Carga los datos de nodos desde un archivo JSON
+    await node.loadFromJSON('/UadeGraph/src/carreras/Informatica.json'); // Carga los datos de nodos desde un archivo JSON
     const nodes = node.getAllNodes(); // Obtiene todos los nodos cargados
     const progress = this.calculateProgress(nodes); // Calcula el progreso
     const average = this.calculateAverage(nodes); // Calcula el promedio
