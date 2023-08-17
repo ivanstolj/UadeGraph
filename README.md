@@ -12,7 +12,7 @@ Este proyecto es una aplicación web interactiva que muestra un grafo de materia
 
 ## Capturas de Pantalla
 
-_Inserta aquí algunas capturas de pantalla del proyecto para dar una vista previa visual._
+![image](https://github.com/ivanstolj/UadeGraph/assets/73201254/761c5eb2-d08d-4e43-b492-2bce015b6625)
 
 ## Tecnologías Utilizadas
 
