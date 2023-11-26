@@ -29,7 +29,9 @@ class NodeGraph extends Component {
   // Método para cargar los datos según la carrera seleccionada
   async loadCareerData(career) {
     const node = new Node();
-    await node.loadFromJSON(`src/carreras/${career}.json`);
+    // GitHub pages URL 
+    //const BASE_URL = 'https://ivanstolj.github.io/UadeGraph/'; 
+    await node.loadFromJSON(`./src/carreras/${career}.json`);
     const nodes = node.getAllNodes();
     const progress = this.calculateProgress(nodes);
     const average = this.calculateAverage(nodes);
