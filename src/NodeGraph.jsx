@@ -32,7 +32,7 @@ class NodeGraph extends Component {
     // GitHub pages URL 
     //const BASE_URL = 'https://ivanstolj.github.io/UadeGraph/'; 
     //https://ivanstolj.github.io/UadeGraph
-    await node.loadFromJSON(`https://ivanstolj.github.io/UadeGraph/src/carreras/${career}.json`);
+    await node.loadFromJSON(`./src/carreras/${career}.json`);
     const nodes = node.getAllNodes();
     const progress = this.calculateProgress(nodes);
     const average = this.calculateAverage(nodes);
