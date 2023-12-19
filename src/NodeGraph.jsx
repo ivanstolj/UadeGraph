@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Node from './Node'; // Importa el componente Node desde el archivo Node.js
 import cytoscape from 'cytoscape'; // Importa la librería Cytoscape
 import './Graph.css'; // Importa el archivo CSS para estilos personalizados
